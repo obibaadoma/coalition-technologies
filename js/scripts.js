@@ -41,11 +41,12 @@ function displayPatientData(patient) {
           ]
       },
       options: {
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
+        plugins: {
+          subtitle: {
+              display: true,
+              text: 'Custom Chart Subtitle'
           }
+      }
       }
   });
 
