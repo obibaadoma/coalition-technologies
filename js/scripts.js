@@ -73,26 +73,26 @@ function displayPatientData(patient) {
   const patientInfo = document.getElementById('patient-info');
   patientInfo.innerHTML = `
     <img src="${patient.profile_picture}" alt="${patient.name}" class="w-40 h-40 rounded-full mx-auto mb-4" />
-    <p class="text-center font-bold text-xl">${patient.name}</p>
-    <p><img src="images/BirthIcon@2x.png" alt="Calendar" class="w-4 h-4 inline mr-2"><span class="inline-flex flex-col">
+    <p class="text-center font-bold text-lg">${patient.name}</p>
+    <p class="flex items-center"><img src="images/BirthIcon@2x.png" alt="Calendar" class="w-8 h-full inline mr-2"><span class="inline-flex flex-col text-sm">
         <span>Date of Birth:</span>
-        <span class="text-sm font-semibold ml-[88px]">${patient.date_of_birth}</span>
+        <span class="font-semibold ml-[88px]">${patient.date_of_birth}</span>
       </span></p>
-    <p><img src="images/FemaleIcon@2x.png" alt="Gender" class="w-4 h-4 inline mr-2"><span class="inline-flex flex-col">
+    <p class="flex items-center"><img src="images/FemaleIcon@2x.png" alt="Gender" class="w-8 h-full inline mr-2"><span class="inline-flex flex-col text-sm">
         <span>Gender:</span>
-        <span class="text-sm font-semibold ml-[88px]">${patient.gender}</span>
+        <span class="font-semibold ml-[88px]">${patient.gender}</span>
       </span></p>
-    <p><img src="images/PhoneIcon@2x.png" alt="Phone" class="w-4 h-4 inline mr-2"><span class="inline-flex flex-col">
+    <p class="flex items-center"><img src="images/PhoneIcon@2x.png" alt="Phone" class="w-8 h-full inline mr-2"><span class="inline-flex flex-col text-sm">
         <span>Contact Info:</span>
-        <span class="text-sm font-semibold ml-[88px]">${patient.phone_number}</span>
+        <span class="font-semibold ml-[88px]">${patient.phone_number}</span>
       </span></p>
-    <p><img src="images/PhoneIcon@2x.png" alt="Emergency" class="w-4 h-4 inline mr-2"><span class="inline-flex flex-col">
+    <p class="flex items-center"><img src="images/PhoneIcon@2x.png" alt="Emergency" class="w-8 h-full inline mr-2"><span class="inline-flex flex-col text-sm">
         <span>Emergency Contact:</span>
-        <span class="text-sm font-semibold ml-[88px]">${patient.emergency_contact}</span>
+        <span class="font-semibold ml-[88px]">${patient.emergency_contact}</span>
       </span></p>
-    <p><img src="images/InsuranceIcon@2x.png" alt="Insurance" class="w-4 h-4 inline mr-2"><span class="inline-flex flex-col">
+    <p class="flex items-center"><img src="images/InsuranceIcon@2x.png" alt="Insurance" class="w-8 h-full inline mr-2"><span class="inline-flex flex-col text-sm">
         <span>Insurance provider:</span>
-        <span class="text-sm font-semibold ml-[88px]">${patient.insurance_type}</span>
+        <span class="font-semibold ml-[88px]">${patient.insurance_type}</span>
       </span></p>
     <br>
     <br>
@@ -141,3 +141,39 @@ function displayPatientData(patient) {
 document.addEventListener('DOMContentLoaded', () => {
   // Initial fetch of patients data happens automatically when the script loads
 });
+
+function displayDiagnosisList(patient) {
+  const diagnosisContainer = document.querySelector('.space-y-3');
+  if (!patient.diagnoses || !Array.isArray(patient.diagnoses)) {
+    diagnosisContainer.innerHTML = '<div class="p-2">No diagnosis records found</div>';
+    return;
+  }
+
+  diagnosisContainer.innerHTML = patient.diagnoses.map(diagnosis => `
+    <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
+      <div>
+        <p class="font-semibold">${diagnosis.name}</p>
+        <p class="text-sm text-gray-600">${diagnosis.description}</p>
+      </div>
+      <span class="text-sm ${getStatusColor(diagnosis.status)}">${diagnosis.status}</span>
+    </div>
+  `).join('');
+}
+
+function getStatusColor(status) {
+  const statusColors = {
+    'Active': 'text-red-500',
+    'Inactive': 'text-gray-500', 
+    'Cured': 'text-green-500',
+    'Untreated': 'text-yellow-500'
+  };
+  return statusColors[status] || 'text-gray-500';
+}
+
+// Update displayPatientData to include diagnosis list
+const originalDisplayPatientData = displayPatientData;
+displayPatientData = (patient) => {
+  originalDisplayPatientData(patient);
+  displayDiagnosisList(patient);
+};
+
