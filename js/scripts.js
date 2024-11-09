@@ -89,7 +89,10 @@ function listPatients(patientsData) {
     return;
   }
 
-  patientList.innerHTML = patientsData.map(patient => `
+  // Only display first 12 patients
+  const displayedPatients = patientsData.slice(0, 12);
+
+  patientList.innerHTML = displayedPatients.map(patient => `
     <li class="patient-item cursor-pointer p-4 hover:bg-gray-100 border-b" data-patient='${JSON.stringify(patient)}'>
       <div class="flex items-center">
         <img src="${patient.profile_picture || 'images/default-avatar.png'}" alt="${patient.name}" class="w-10 h-10 rounded-full mr-4">
