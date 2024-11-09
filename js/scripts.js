@@ -18,42 +18,62 @@ fetch('https://fedskillstest.coalitiontechnologies.workers.dev', requestOptions)
   .catch(error => console.error('Error fetching patients:', error));
 
 function displayPatientData(patient) {
-  const ctx = document.getElementById('bloodPressureChart');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: patient.bloodPressure.map(bp => bp.date),
-      datasets: [
-        {
-          label: 'Systolic',
-          data: patient.bloodPressure.map(bp => bp.systolic),
-          borderColor: 'rgba(255, 99, 132, 1)',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderWidth: 1
+  // Fetch graph data for the selected patient
+  fetch(`https://fedskillstest.coalitiontechnologies.workers.dev/graph/${patient.id}`, requestOptions)
+    .then(response => response.json())
+    .then(graphData => {
+      const ctx = document.getElementById('bloodPressureChart');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: graphData.dates,
+          datasets: [
+            {
+              label: 'Blood Pressure',
+              data: graphData.values,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderWidth: 2,
+              tension: 0.4
+            }
+          ]
         },
-        {
-          label: 'Diastolic',
-          data: patient.bloodPressure.map(bp => bp.diastolic),
-          borderColor: 'rgba(54, 162, 235, 1)',
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderWidth: 1
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Patient Blood Pressure Trends'
+            },
+            legend: {
+              position: 'top'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Blood Pressure (mmHg)'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              }
+            }
+          }
         }
-      ]
-    },
-    options: {
-      plugins: {
-        subtitle: {
-          display: true,
-          text: 'Blood Pressure over Time'
-        }
-      }
-    }
-  });
+      });
+    })
+    .catch(error => console.error('Error fetching graph data:', error));
 
   // Display other patient data
   const patientInfo = document.getElementById('patient-info');
   patientInfo.innerHTML = `
-    <p><strong>Name:</strong> ${patient.name}</p>
+    <img src="${patient.profile_picture}" alt="${patient.name}" class="w-10 h-10 rounded-full mr-4" />
+    <p><strong></strong> ${patient.name}</p>
     <p><strong>Date of Birth:</strong> ${patient.date_of_birth}</p>
     <p><strong>Gender:</strong> ${patient.gender}</p>
     <p><strong>Contact Info:</strong> ${patient.phone_number}</p>
@@ -75,9 +95,7 @@ function listPatients(patientsData) {
         <img src="${patient.profile_picture || 'images/default-avatar.png'}" alt="${patient.name}" class="w-10 h-10 rounded-full mr-4">
         <div>
           <h3 class="font-semibold">${patient.name}</h3>
-          <p class="text-sm text-gray-600"> ${patient.gender}, ${patient.
-            age
-            }</p>
+          <p class="text-sm text-gray-600"> ${patient.gender}, ${patient.age}</p>
         </div>
       </div>
     </li>
