@@ -198,18 +198,12 @@ function displayLabResults(labResults) {
             class="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded"
             onclick="viewTestDetails('${testName}')"
           >
-            View Details
+            <img src="/images/download@2x.png" alt="View Details" class="w-4 h-4"/>
           </button>
         </div>
       </div>
     </li>
   `).join('');
-}
-
-function viewTestDetails(testName) {
-  // This function can be implemented later to handle viewing detailed results
-  // when clicking on a specific test
-  console.log(`Viewing details for: ${testName}`);
 }
 
 // Update displayPatientData to include diagnosis list
