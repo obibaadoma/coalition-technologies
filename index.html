@@ -50,9 +50,9 @@
     </header>
 
     <div class="container mx-auto p-4">
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-12 gap-4">
             <!-- First Column -->
-            <div class="bg-white rounded-lg shadow-md p-4 h-full">
+            <div class="col-span-3 bg-white rounded-lg shadow-md p-4 h-full">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-bold">Patients</h2>
                     <img src="images/search_FILL0_wght300_GRAD0_opsz24.png" alt="Search" class="w-5 h-5">
@@ -63,9 +63,9 @@
             </div>
     
             <!-- Second Column -->
-            <div class="space-y-4">
+            <div class="col-span-6 space-y-4">
                 <!-- Top Card -->
-                <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="bg-white rounded-lg shadow-md p-4 w-full">
                     <h2 class="text-lg font-bold mb-4">Blood Pressure Trends</h2>
                     <canvas id="bloodPressureChart"></canvas>
                     <div class="grid grid-cols-3 gap-4 mt-4">
@@ -85,9 +85,10 @@
                 </div>
                 
                 <!-- Bottom Card -->
-                <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="bg-white rounded-lg shadow-md p-4 w-full">
                     <h3 class="text-lg font-bold mb-3">Diagnostic List</h3>
-                    <div class="flex justify-between items-center p-3 bg-gray-200 rounded-t">
+                    <div class="flex justify-between items-center p-3 bg-gray-100 rounded-h rounded-3xl">
+                        <br>
                         <div class="w-1/3 font-semibold text-gray-700">Problem/Diagnosis</div>
                         <div class="w-1/3 font-semibold text-gray-700">Description</div>
                         <div class="w-1/3 font-semibold text-gray-700">Status</div>
@@ -101,7 +102,7 @@
             </div>
     
             <!-- Third Column -->
-            <div class="space-y-4">
+            <div class="col-span-3 space-y-4">
                 <!-- Top Card -->
                 <div class="bg-white rounded-lg shadow-md p-4">
                     <div id="patient-info" class="space-y-2 flex flex-col">

@@ -6,22 +6,22 @@ myHeaders.append('Authorization', `Basic ${btoa(`${username}:${password}`)}`);
 const requestOptions = {
   method: 'GET',
   headers: myHeaders,
-  redirect: 'follow'
+  redirect: 'follow',
 };
 
 // Fetch patients data and display the list
 fetch('https://fedskillstest.coalitiontechnologies.workers.dev', requestOptions)
-  .then(response => response.json())
-  .then(patients => {
+  .then((response) => response.json())
+  .then((patients) => {
     listPatients(patients);
   })
-  .catch(error => console.error('Error fetching patients:', error));
+  .catch((error) => console.error('Error fetching patients:', error));
 
 function displayPatientData(patient) {
   // First fetch: Graph data (existing code)
   fetch(`https://fedskillstest.coalitiontechnologies.workers.dev/graph/${patient.id}`, requestOptions)
-    .then(response => response.json())
-    .then(graphData => {
+    .then((response) => response.json())
+    .then((graphData) => {
       const ctx = document.getElementById('bloodPressureChart');
       new Chart(ctx, {
         type: 'line',
@@ -34,40 +34,40 @@ function displayPatientData(patient) {
               borderColor: 'rgba(75, 192, 192, 1)',
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               borderWidth: 2,
-              tension: 0.4
-            }
-          ]
+              tension: 0.4,
+            },
+          ],
         },
         options: {
           responsive: true,
           plugins: {
             title: {
               display: true,
-              text: 'Patient Blood Pressure Trends'
+              text: 'Patient Blood Pressure Trends',
             },
             legend: {
-              position: 'top'
-            }
+              position: 'top',
+            },
           },
           scales: {
             y: {
               beginAtZero: true,
               title: {
                 display: true,
-                text: 'Blood Pressure (mmHg)'
-              }
+                text: 'Blood Pressure (mmHg)',
+              },
             },
             x: {
               title: {
                 display: true,
-                text: 'Date'
-              }
-            }
-          }
-        }
+                text: 'Date',
+              },
+            },
+          },
+        },
       });
     })
-    .catch(error => console.error('Error fetching graph data:', error));
+    .catch((error) => console.error('Error fetching graph data:', error));
 
   // No need for separate diagnosis fetch - use the data from patient object
   displayDiagnosisList(patient.diagnostic_list);
@@ -104,7 +104,7 @@ function displayPatientData(patient) {
     `;
 }
 
-  function listPatients(patientsData) {
+function listPatients(patientsData) {
   const patientList = document.getElementById('patient-list');
   if (!patientsData || !Array.isArray(patientsData)) {
     patientList.innerHTML = '<li>No patients found</li>';
@@ -114,7 +114,7 @@ function displayPatientData(patient) {
   // Only display first 12 patients
   const displayedPatients = patientsData.slice(0, 12);
 
-  patientList.innerHTML = displayedPatients.map(patient => `
+  patientList.innerHTML = displayedPatients.map((patient) => `
     <li class="patient-item cursor-pointer p-4 hover:bg-gray-100 border-b" data-patient='${JSON.stringify(patient)}'>
       <div class="flex items-center">
         <img src="${patient.profile_picture || 'images/default-avatar.png'}" alt="${patient.name}" class="w-10 h-10 rounded-full mr-4">
@@ -127,13 +127,13 @@ function displayPatientData(patient) {
   `).join('');
 
   // Add event listeners to the list items
-  document.querySelectorAll('.patient-item').forEach(item => {
+  document.querySelectorAll('.patient-item').forEach((item) => {
     item.addEventListener('click', () => {
       // Remove active class from all items
-      document.querySelectorAll('.patient-item').forEach(i => i.classList.remove('bg-blue-50'));
+      document.querySelectorAll('.patient-item').forEach((i) => i.classList.remove('bg-blue-50'));
       // Add active class to clicked item
       item.classList.add('bg-blue-50');
-      
+
       const patient = JSON.parse(item.getAttribute('data-patient'));
       displayPatientData(patient);
     });
@@ -142,16 +142,16 @@ function displayPatientData(patient) {
 
 function displayDiagnosisList(diagnosticList) {
   const diagnosisList = document.getElementById('diagnosis-list');
-  
+
   if (!diagnosticList || !Array.isArray(diagnosticList)) {
     diagnosisList.innerHTML = '<li class="p-2">No diagnosis records found</li>';
     return;
   }
 
-  diagnosisList.innerHTML = diagnosticList.map(diagnosis => `
+  diagnosisList.innerHTML = diagnosticList.map((diagnosis) => `
     
     <li class="flex flex-col">
-      <div class="flex justify-between items-center p-2 bg-gray-50 hover:bg-gray-100">
+      <div class="flex justify-between items-center p-2 hover:bg-gray-100">
         <div class="w-1/3">
           <p class="font-semibold">${diagnosis.name}</p>
         </div>
@@ -168,11 +168,11 @@ function displayDiagnosisList(diagnosticList) {
 
 function getStatusColor(status) {
   const statusColors = {
-    'Active': 'text-red-500',
-    'Inactive': 'text-gray-500', 
-    'Cured': 'text-green-500',
-    'Untreated': 'text-yellow-500',
-    'Under Observation': 'text-yellow-500'
+    Active: 'text-red-500',
+    Inactive: 'text-gray-500',
+    Cured: 'text-green-500',
+    Untreated: 'text-yellow-500',
+    'Under Observation': 'text-yellow-500',
   };
   return statusColors[status] || 'text-gray-500';
 }
