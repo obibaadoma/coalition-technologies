@@ -18,7 +18,7 @@ fetch('https://fedskillstest.coalitiontechnologies.workers.dev', requestOptions)
   .catch(error => console.error('Error fetching patients:', error));
 
 function displayPatientData(patient) {
-  // Fetch graph data for the selected patient
+  // First fetch: Graph data (existing code)
   fetch(`https://fedskillstest.coalitiontechnologies.workers.dev/graph/${patient.id}`, requestOptions)
     .then(response => response.json())
     .then(graphData => {
@@ -68,6 +68,9 @@ function displayPatientData(patient) {
       });
     })
     .catch(error => console.error('Error fetching graph data:', error));
+
+  // No need for separate diagnosis fetch - use the data from patient object
+  displayDiagnosisList(patient.diagnostic_list);
 
   // Display other patient data
   const patientInfo = document.getElementById('patient-info');
@@ -137,26 +140,22 @@ function displayPatientData(patient) {
   });
 }
 
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Initial fetch of patients data happens automatically when the script loads
-});
-
-function displayDiagnosisList(patient) {
-  const diagnosisContainer = document.querySelector('.space-y-3');
-  if (!patient.diagnoses || !Array.isArray(patient.diagnoses)) {
-    diagnosisContainer.innerHTML = '<div class="p-2">No diagnosis records found</div>';
+function displayDiagnosisList(diagnosticList) {
+  const diagnosisList = document.getElementById('diagnosis-list');
+  
+  if (!diagnosticList || !Array.isArray(diagnosticList)) {
+    diagnosisList.innerHTML = '<li class="p-2">No diagnosis records found</li>';
     return;
   }
 
-  diagnosisContainer.innerHTML = patient.diagnoses.map(diagnosis => `
-    <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
-      <div>
+  diagnosisList.innerHTML = diagnosticList.map(diagnosis => `
+    <li class="flex justify-between items-center p-2 bg-gray-50 rounded mb-2">
+      <div class="flex items-center gap-2">
         <p class="font-semibold">${diagnosis.name}</p>
         <p class="text-sm text-gray-600">${diagnosis.description}</p>
+        <span class="text-sm ${getStatusColor(diagnosis.status)}">${diagnosis.status}</span>
       </div>
-      <span class="text-sm ${getStatusColor(diagnosis.status)}">${diagnosis.status}</span>
-    </div>
+    </li>
   `).join('');
 }
 
@@ -165,7 +164,8 @@ function getStatusColor(status) {
     'Active': 'text-red-500',
     'Inactive': 'text-gray-500', 
     'Cured': 'text-green-500',
-    'Untreated': 'text-yellow-500'
+    'Untreated': 'text-yellow-500',
+    'Under Observation': 'text-yellow-500'
   };
   return statusColors[status] || 'text-gray-500';
 }
@@ -174,6 +174,10 @@ function getStatusColor(status) {
 const originalDisplayPatientData = displayPatientData;
 displayPatientData = (patient) => {
   originalDisplayPatientData(patient);
-  displayDiagnosisList(patient);
+  displayDiagnosisList(patient.diagnostic_list);
 };
 
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Initial fetch of patients data happens automatically when the script loads
+});
