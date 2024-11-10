@@ -69,8 +69,11 @@ function displayPatientData(patient) {
     })
     .catch((error) => console.error('Error fetching graph data:', error));
 
-  // No need for separate diagnosis fetch - use the data from patient object
+  // Display diagnosis list
   displayDiagnosisList(patient.diagnostic_list);
+  
+  // Display lab results
+  displayLabResults(patient.lab_results);
 
   // Display other patient data
   const patientInfo = document.getElementById('patient-info');
@@ -175,6 +178,38 @@ function getStatusColor(status) {
     'Under Observation': 'text-yellow-500',
   };
   return statusColors[status] || 'text-gray-500';
+}
+function displayLabResults(labResults) {
+  const labResultsList = document.getElementById('lab-results-list');
+
+  if (!labResults || !Array.isArray(labResults)) {
+    labResultsList.innerHTML = '<li class="p-2">No lab results found</li>';
+    return;
+  }
+
+  labResultsList.innerHTML = labResults.map((testName) => `
+    <li class="flex flex-col mb-4 bg-white rounded-lg shadow">
+      <div class="flex justify-between items-center p-4">
+        <div class="flex-1">
+          <p class="font-semibold text-gray-800">${testName}</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button 
+            class="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded"
+            onclick="viewTestDetails('${testName}')"
+          >
+            View Details
+          </button>
+        </div>
+      </div>
+    </li>
+  `).join('');
+}
+
+function viewTestDetails(testName) {
+  // This function can be implemented later to handle viewing detailed results
+  // when clicking on a specific test
+  console.log(`Viewing details for: ${testName}`);
 }
 
 // Update displayPatientData to include diagnosis list
