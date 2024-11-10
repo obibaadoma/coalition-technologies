@@ -149,11 +149,18 @@ function displayDiagnosisList(diagnosticList) {
   }
 
   diagnosisList.innerHTML = diagnosticList.map(diagnosis => `
-    <li class="flex justify-between items-center p-2 bg-gray-50 rounded mb-2">
-      <div class="flex items-center gap-2">
-        <p class="font-semibold">${diagnosis.name}</p>
-        <p class="text-sm text-gray-600">${diagnosis.description}</p>
-        <span class="text-sm ${getStatusColor(diagnosis.status)}">${diagnosis.status}</span>
+    
+    <li class="flex flex-col">
+      <div class="flex justify-between items-center p-2 bg-gray-50 hover:bg-gray-100">
+        <div class="w-1/3">
+          <p class="font-semibold">${diagnosis.name}</p>
+        </div>
+        <div class="w-1/3">
+          <p class="text-sm text-gray-600">${diagnosis.description}</p>
+        </div>
+        <div class="w-1/3">
+          <span class="text-sm ${getStatusColor(diagnosis.status)}">${diagnosis.status}</span>
+        </div>
       </div>
     </li>
   `).join('');
