@@ -18,56 +18,132 @@ fetch('https://fedskillstest.coalitiontechnologies.workers.dev', requestOptions)
   .catch((error) => console.error('Error fetching patients:', error));
 
 function displayPatientData(patient) {
-  // First fetch: Graph data (existing code)
-  fetch(`https://fedskillstest.coalitiontechnologies.workers.dev/graph/${patient.id}`, requestOptions)
+  // Ensure requestOptions is defined
+  if (!requestOptions) {
+    console.error('requestOptions is not defined.');
+    return;
+  }
+  
+  fetch(`https://fedskillstest.coalitiontechnologies.workers.dev/patients/${patient.index}/blood_pressure`, requestOptions)
     .then((response) => response.json())
-    .then((graphData) => {
-      const ctx = document.getElementById('bloodPressureChart');
-      new Chart(ctx, {
+    .then((data) => {
+      // Check if data is an array
+      if (!Array.isArray(data)) {
+        console.error('Unexpected data format. Expected an array.');
+        return;
+      }
+      
+      // Find the selected patient's data
+      const patientData = data.find(p => p.name === patient.name);
+      console.log(patientData);
+      
+      if (!patientData || !patientData.diagnosis_history) {
+        console.error('No blood pressure data found for patient');
+        return;
+      }
+
+      // Sort diagnosis history by date
+      const sortedHistory = patientData.diagnosis_history.sort((a, b) => {
+        const dateA = new Date(`${a.month} ${a.year}`);
+        const dateB = new Date(`${b.month} ${b.year}`);
+        return dateA - dateB;
+      });
+
+      // Extract blood pressure data - limit to last 12 months
+      const limitedHistory = sortedHistory.slice(-12);
+      const labels = limitedHistory.map(record => `${record.month.slice(0, 3)} ${record.year}`);
+      const systolicData = limitedHistory.map(record => record.blood_pressure.systolic?.value || 0);
+      const diastolicData = limitedHistory.map(record => record.blood_pressure.diastolic?.value || 0);
+
+      // Get the canvas element
+      const canvas = document.getElementById('bloodPressureChart');
+      const ctx = canvas.getContext('2d');
+
+      // Destroy existing chart if it exists
+      if (window.bloodPressureChart instanceof Chart) {
+        window.bloodPressureChart.destroy();
+      }
+
+      
+      window.bloodPressureChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: graphData.dates,
+          labels: labels,
           datasets: [
             {
-              label: 'Blood Pressure',
-              data: graphData.values,
+              label: 'Systolic',
+              data: systolicData,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderWidth: 2,
+              tension: 0.4,
+              fill: true,
+              pointRadius: 4,
+              pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+            },
+            {
+              label: 'Diastolic',
+              data: diastolicData,
               borderColor: 'rgba(75, 192, 192, 1)',
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               borderWidth: 2,
               tension: 0.4,
-            },
+              fill: true,
+              pointRadius: 4,
+              pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+            }
           ],
         },
         options: {
           responsive: true,
+          maintainAspectRatio: true,
           plugins: {
-            title: {
-              display: true,
-              text: 'Patient Blood Pressure Trends',
-            },
             legend: {
-              position: 'top',
+              display: true
             },
+            title: {
+              display: false
+            }
           },
           scales: {
             y: {
               beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Blood Pressure (mmHg)',
+              grid: {
+                color: 'rgba(0, 0, 0, 0.1)',
+                drawBorder: false
               },
+              ticks: {
+                font: {
+                  size: 12
+                }
+              }
             },
             x: {
-              title: {
-                display: true,
-                text: 'Date',
+              grid: {
+                display: false
               },
-            },
+              ticks: {
+                font: {
+                  size: 12
+                }
+              }
+            }
           },
-        },
+          elements: {
+            line: {
+              tension: 0.4
+            },
+            point: {
+              radius: 4,
+              hoverRadius: 6
+            }
+          }
+        }
       });
     })
-    .catch((error) => console.error('Error fetching graph data:', error));
+    .catch((error) => {
+      console.error('Error fetching blood pressure data:', error);
+    });
 
   // Display diagnosis list
   displayDiagnosisList(patient.diagnostic_list);
@@ -104,7 +180,7 @@ function displayPatientData(patient) {
     <br>
     
     <button class="w-[220px] h-[41px] rounded-full bg-[blue] text-black">Show all information</button>
-    `;
+  `;
 }
 
 function listPatients(patientsData) {
@@ -130,15 +206,16 @@ function listPatients(patientsData) {
   `).join('');
 
   // Add event listeners to the list items
-  document.querySelectorAll('.patient-item').forEach((item) => {
+  document.querySelectorAll('.patient-item').forEach((item, index) => {
     item.addEventListener('click', () => {
-      // Remove active class from all items
-      document.querySelectorAll('.patient-item').forEach((i) => i.classList.remove('bg-blue-50'));
-      // Add active class to clicked item
-      item.classList.add('bg-blue-50');
-
       const patient = JSON.parse(item.getAttribute('data-patient'));
+      // Add index to patient object
+      patient.index = index + 1; // 1-based index
       displayPatientData(patient);
+      
+      // Highlight selected patient
+      document.querySelectorAll('.patient-item').forEach(p => p.classList.remove('selected'));
+      item.classList.add('selected');
     });
   });
 }
@@ -152,7 +229,6 @@ function displayDiagnosisList(diagnosticList) {
   }
 
   diagnosisList.innerHTML = diagnosticList.map((diagnosis) => `
-    
     <li class="flex flex-col">
       <div class="flex justify-between items-center p-2 hover:bg-gray-100">
         <div class="w-1/3">
@@ -179,6 +255,7 @@ function getStatusColor(status) {
   };
   return statusColors[status] || 'text-gray-500';
 }
+
 function displayLabResults(labResults) {
   const labResultsList = document.getElementById('lab-results-list');
 
@@ -198,7 +275,7 @@ function displayLabResults(labResults) {
             class="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded"
             onclick="viewTestDetails('${testName}')"
           >
-            View Details
+            <img src="/images/download@2x.png" alt="View Details" class="w-4 h-4"/>
           </button>
         </div>
       </div>
@@ -206,11 +283,26 @@ function displayLabResults(labResults) {
   `).join('');
 }
 
-function viewTestDetails(testName) {
-  // This function can be implemented later to handle viewing detailed results
-  // when clicking on a specific test
-  console.log(`Viewing details for: ${testName}`);
+function pickVitalSign(apiData) {
+  const vitalSigns = ['Respiratory rate', 'Temperature', 'Heart Rate'];
+  for (let i = 0; i < vitalSigns.length; i++) {
+    if (apiData[vitalSigns[i]]) {
+      const vitalSignValue = apiData[vitalSigns[i]];
+      document.getElementById('vital-sign').textContent = vitalSignValue;
+      return vitalSignValue;
+    }
+  }
+  document.getElementById('vital-sign').textContent = 'No vital signs available';
+  return null;
 }
+
+function updateRespiratoryRate(apiData) {
+  const respiratoryRate = apiData['Respiratory rate'] || 'N/A';
+  const unit = respiratoryRate !== 'N/A' ? ' bpm' : '';
+  document.getElementById('respiratory-rate').textContent = respiratoryRate + unit;
+}
+
+
 
 // Update displayPatientData to include diagnosis list
 const originalDisplayPatientData = displayPatientData;
