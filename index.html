@@ -66,8 +66,8 @@
             <div class="col-span-6 space-y-4 h-[calc(100vh-200px)] flex flex-col">
                 <!-- Top Card -->
                 <div class="bg-white rounded-lg shadow-md p-4 w-full h-[300px]">
-                    <h2 class="text-lg font-bold mb-4">Blood Pressure Trends</h2>
-                <div class="flex">
+                    <h2 class="text-lg font-bold mb-4">Diagnosis History</h2>
+                <div class="flex bg-[#CBC8D4]">
                     <div class="chart-container" style="position: relative; height: 300px; width: 70%;">
                         <canvas id="bloodPressureChart"></canvas>
                     </div>
@@ -76,23 +76,20 @@
                         <p>Diastolic</p>
                     </div>
                 </div>
-                    <div class="grid grid-cols-3 gap-4 mt-4">
-                        <div class="bg-blue-100 p-4 rounded-lg text-center">
+                    <div class="grid grid-cols-3 gap-3 mt-1">
+                        <div class="bg-blue-100 p-4 rounded-lg text-left">
                             <img src="images/respiratory rate@2x.png" alt="Respiratory Rate" class="w-14 h-14">
-                            <br>
-                            <div class="text-sm font-bold text-left">Respiratory Rate</div>
-                            <div id="vital-rate"></div>
+                            <div class="text-sm text-left">Respiratory Rate</div>
+                            <div class="mt-1 text-left" id="vital-rate"></div>
                         </div>
-                        <div class="bg-blue-100 p-4 rounded-lg text-center">
+                        <div class="bg-red-200 p-4 rounded-lg text-left">
                             <img src="images/temperature@2x.png" alt="temperature" class="w-14 h-14">
-                            <br>
-                            <div class="text-sm font-bold text-left">Temperature</div>
+                            <div class="text-sm text-left">Temperature</div>
                             <div id="temperature"></div>
                         </div>
-                        <div class="bg-red-200 p-4 rounded-lg text-center">
+                        <div class="bg-red-100 p-4 rounded-lg text-left">
                             <img src="images/HeartBPM@2x.png" alt="Heart Rate" class="w-14 h-14">
-                            <br>
-                            <div class="text-sm font-bold text-left">Heart Rate</div>
+                            <div class="text-sm text-left">Heart Rate</div>
                             <div id="heart-rate"></div>
                         </div>
                     </div>

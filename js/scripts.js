@@ -289,7 +289,7 @@ function Vitals(diagnosisHistory) {
   } else {
     vitalRate.innerHTML = `
       <div class="p-4">
-        <p class="text-lg">${latestVital.respiratory_rate.value} BPM</p>
+        <p class="text-lg font-bold mb-0">${latestVital.respiratory_rate.value} bpm</p>
         <p class="text-sm text-gray-600">${latestVital.respiratory_rate.levels}</p>
       </div>
     `;
@@ -301,7 +301,7 @@ function Vitals(diagnosisHistory) {
   } else {
     temperature.innerHTML = `
       <div class="p-4">
-        <p class="text-lg">${latestVital.temperature.value}°F</p>
+        <p class="text-lg font-bold">${latestVital.temperature.value}°F</p>
         <p class="text-sm text-gray-600">${latestVital.temperature.levels}</p>
       </div>
     `;
@@ -313,15 +313,9 @@ function Vitals(diagnosisHistory) {
   } else {
     heartRate.innerHTML = `
       <div class="p-4">
-        <p class="text-lg">${latestVital.heart_rate.value} BPM</p>
+        <p class="text-lg font-bold">${latestVital.heart_rate.value} bpm</p>
         <p class="text-sm text-gray-600">${latestVital.heart_rate.levels}</p>
       </div>
     `;
   }
 }
-
-
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Initial fetch of patients data happens automatically when the script loads
-});
