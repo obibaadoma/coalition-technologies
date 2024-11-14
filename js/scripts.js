@@ -63,7 +63,7 @@ const displayPatientData = (patient) => {
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
           borderWidth: 2,
           tension: 0.4,
-          fill: true,
+          fill: false,
           pointRadius: 4,
           pointBackgroundColor: 'rgba(255, 99, 132, 1)',
         },
@@ -74,7 +74,7 @@ const displayPatientData = (patient) => {
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderWidth: 2,
           tension: 0.4,
-          fill: true,
+          fill: false,
           pointRadius: 4,
           pointBackgroundColor: 'rgba(75, 192, 192, 1)',
         },
@@ -86,10 +86,52 @@ const displayPatientData = (patient) => {
       plugins: {
         legend: {
           display: true,
+          position: 'right',
+          align: 'start',
+          labels: {
+            boxWidth: 2,
+            padding: 50,
+            usePointStyle: true,
+            pointStyle: 'circle',
+            pointStyleWidth: 4,
+            boxHeight: 4,
+            boxWidth: 4,
+            generateLabels: function(chart) {
+              const datasets = chart.data.datasets;
+              return datasets.map((dataset, i) => ({
+                text: dataset.label,
+                fillStyle: dataset.borderColor,
+                strokeStyle: dataset.borderColor,
+                lineWidth: 2,
+                hidden: !chart.isDatasetVisible(i),
+                index: i,
+                datasetIndex: i,
+                pointStyle: 'circle',
+                textBaseline: 'middle',
+                padding: i === 0 ? { top: -20, bottom: 0 } : { top: 0, bottom: 0 }
+              }));
+            }
+          }
         },
         title: {
-          display: false,
+          display: true,
+          text: 'Blood Pressure',
+          font: {
+            size: 14,
+            weight: 'bold'
+          },
+          padding: {
+            top: 5,
+            bottom: 5
+          },
+          align: 'start'
         },
+      },
+      layout: {
+        padding: {
+          top: 2,
+          right: 100
+      }
       },
       scales: {
         y: {
