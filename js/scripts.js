@@ -57,10 +57,10 @@ const displayPatientData = (patient) => {
       labels,
       datasets: [
         {
-          label: 'Systolicx',
+          label: 'Systolic',
           data: systolicData,
           borderColor: 'rgba(255, 99, 132, 1)',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)', 
           borderWidth: 2,
           tension: 0.4,
           fill: false,
@@ -99,7 +99,9 @@ const displayPatientData = (patient) => {
             generateLabels: function(chart) {
               const datasets = chart.data.datasets;
               return datasets.map((dataset, i) => ({
-                text: dataset.label,
+                text: dataset.label + ' ' 
+                + (i === 0 ? '\n' + systolicData[systolicData.length - 1] // Prints systolic value on a new line
+                           : diastolicData[diastolicData.length - 1]), // Prints diastolic value
                 fillStyle: dataset.borderColor,
                 strokeStyle: dataset.borderColor,
                 lineWidth: 2,
@@ -108,7 +110,7 @@ const displayPatientData = (patient) => {
                 datasetIndex: i,
                 pointStyle: 'circle',
                 textBaseline: 'middle',
-                padding: i === 0 ? { top: -20, bottom: 0 } : { top: 0, bottom: 0 }
+                padding: i === 0 ? { top: 2, bottom: 0 } : { top: 0, bottom: 0 }
               }));
             }
           }
@@ -121,7 +123,7 @@ const displayPatientData = (patient) => {
             weight: 'bold'
           },
           padding: {
-            top: 2, // Reduced top padding to shift text up
+            top: 2,
             bottom: 20
           },
           align: 'start'
@@ -130,11 +132,13 @@ const displayPatientData = (patient) => {
       layout: {
         padding: {
           top: 2,
-          right: 10// Reduced right padding to allow more space for the chart
-      }
+          right: 10,
+          left: 0 // Reduced left padding to shift y-axis closer to title
+        }
       },
       scales: {
         y: {
+          position: 'left',
           beginAtZero: true,
           grid: {
             color: 'rgba(0, 0, 0, 0.1)',
@@ -145,8 +149,10 @@ const displayPatientData = (patient) => {
             font: {
               size: 12,
             },
-            count: 7
+            count: 7,
+            padding: 4 // Reduced padding to move labels closer to axis
           },
+          offset: false // Removes the gap between the axis and the data
         },
         x: {
           grid: {
@@ -158,7 +164,7 @@ const displayPatientData = (patient) => {
             },
           },
           afterFit: function(scaleInstance) {
-            scaleInstance.width = 500; // Increase the width of x-axis
+            scaleInstance.width = 550; // Increased width of x-axis
           }
         },
       },

@@ -67,28 +67,28 @@
     
             <!-- Second Column - Vital Signs Section -->
             <div class="col-span-6 space-y-6">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-[24px] font-semibold text-slate-800 mb-6">Diagnosis History</h2>
-                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                <div class="bg-white rounded-lg shadow-md mt-4">
+                    <h2 class="text-2xl font-semibold text-slate-800 mt-10 mb-6 ml-6">Diagnosis History</h2>
+                    <div class="bg-gray-50 rounded-lg p-4 m-4">
                         <div class="chart-container relative h-[250px]">
                             <canvas id="bloodPressureChart"></canvas>
                         </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-6">
-                        <div class="bg-blue-50 p-6 rounded-lg hover:shadow-md transition-shadow">
-                            <img src="images/respiratory rate@2x.png" alt="Respiratory Rate" class="w-16 h-16 mb-3">
-                            <div class="text-sm font-medium text-gray-600">Respiratory Rate</div>
-                            <div class="text-xl font-bold mt-2" id="vital-rate"></div>
+                    <div class="flex justify-start gap-4 p-4 mb-4">
+                        <div class="bg-blue-50 p-6 rounded-lg hover:shadow-md transition-shadow w-1/3">
+                            <img src="images/respiratory rate@2x.png" alt="Respiratory Rate" class="w-16 h-16 mb-3 mx-auto">
+                            <div class="text-sm font-medium text-gray-600 text-center">Respiratory Rate</div>
+                            <div class="text-xl font-bold mt-2 text-center" id="vital-rate"></div>
                         </div>
-                        <div class="bg-red-200 p-6 rounded-lg hover:shadow-md transition-shadow">
-                            <img src="images/temperature@2x.png" alt="temperature" class="w-16 h-16 mb-3">
-                            <div class="text-sm font-medium text-gray-600">Temperature</div>
-                            <div id="temperature"></div>
+                        <div class="bg-red-200 p-6 rounded-lg hover:shadow-md transition-shadow w-1/3">
+                            <img src="images/temperature@2x.png" alt="temperature" class="w-16 h-16 mb-3 mx-auto">
+                            <div class="text-sm font-medium text-gray-600 text-center">Temperature</div>
+                            <div class="text-center" id="temperature"></div>
                         </div>
-                        <div class="bg-red-100 p-6 rounded-lg hover:shadow-md transition-shadow">
-                            <img src="images/HeartBPM@2x.png" alt="Heart Rate" class="w-16 h-16 mb-3">
-                            <div class="text-sm font-medium text-gray-600">Heart Rate</div>
-                            <div id="heart-rate"></div>
+                        <div class="bg-red-100 p-6 rounded-lg hover:shadow-md transition-shadow w-1/3">
+                            <img src="images/HeartBPM@2x.png" alt="Heart Rate" class="w-16 h-16 mb-4 mx-auto">
+                            <div class="text-sm font-medium text-gray-600 text-center">Heart Rate</div>
+                            <div class="text-center" id="heart-rate"></div>
                         </div>
                     </div>
                 </div>
