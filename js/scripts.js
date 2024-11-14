@@ -20,9 +20,9 @@ fetch('https://fedskillstest.coalitiontechnologies.workers.dev', requestOptions)
   })
   .catch((error) => console.error('Error fetching patients:', error));
 
-function displayPatientData(patient) {
+const displayPatientData = (patient) => {
   // Use the stored patient data instead of fetching again
-  const patientData = patientsData.find(p => p.name === patient.name);
+  const patientData = patientsData.find((p) => p.name === patient.name);
   
   if (!patientData || !patientData.diagnosis_history) {
     console.error('No blood pressure data found for patient');
@@ -38,9 +38,9 @@ function displayPatientData(patient) {
 
   // Extract blood pressure data - limit to last 12 months
   const limitedHistory = sortedHistory.slice(-12);
-  const labels = limitedHistory.map(record => `${record.month.slice(0, 3)} ${record.year}`);
-  const systolicData = limitedHistory.map(record => record.blood_pressure.systolic?.value || 0);
-  const diastolicData = limitedHistory.map(record => record.blood_pressure.diastolic?.value || 0);
+  const labels = limitedHistory.map((record) => `${record.month.slice(0, 3)} ${record.year}`);
+  const systolicData = limitedHistory.map((record) => record.blood_pressure.systolic?.value || 0);
+  const diastolicData = limitedHistory.map((record) => record.blood_pressure.diastolic?.value || 0);
 
   // Get the canvas element
   const canvas = document.getElementById('bloodPressureChart');
@@ -54,7 +54,7 @@ function displayPatientData(patient) {
   window.bloodPressureChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels,
+      labels,
       datasets: [
         {
           label: 'Systolic',
@@ -77,7 +77,7 @@ function displayPatientData(patient) {
           fill: true,
           pointRadius: 4,
           pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-        }
+        },
       ],
     },
     options: {
@@ -85,46 +85,46 @@ function displayPatientData(patient) {
       maintainAspectRatio: true,
       plugins: {
         legend: {
-          display: true
+          display: true,
         },
         title: {
-          display: false
-        }
+          display: false,
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
           grid: {
             color: 'rgba(0, 0, 0, 0.1)',
-            drawBorder: false
+            drawBorder: false,
           },
           ticks: {
             font: {
-              size: 12
-            }
-          }
+              size: 12,
+            },
+          },
         },
         x: {
           grid: {
-            display: false
+            display: false,
           },
           ticks: {
             font: {
-              size: 12
-            }
-          }
-        }
+              size: 12,
+            },
+          },
+        },
       },
       elements: {
         line: {
-          tension: 0.4
+          tension: 0.4,
         },
         point: {
           radius: 4,
-          hoverRadius: 6
-        }
-      }
-    }
+          hoverRadius: 6,
+        },
+      },
+    },
   });
 
   // Display diagnosis list
@@ -166,17 +166,17 @@ function displayPatientData(patient) {
     
     <button class="w-[220px] h-[41px] rounded-full bg-[blue] text-black">Show all information</button>
   `;
-}
+};
 
-function listPatients(patientsData) {
+const listPatients = (patients) => {
   const patientList = document.getElementById('patient-list');
-  if (!patientsData || !Array.isArray(patientsData)) {
+  if (!patients || !Array.isArray(patients)) {
     patientList.innerHTML = '<li>No patients found</li>';
     return;
   }
 
   // Only display first 12 patients
-  const displayedPatients = patientsData.slice(0, 12);
+  const displayedPatients = patients.slice(0, 12);
 
   patientList.innerHTML = displayedPatients.map((patient) => `
     <li class="patient-item cursor-pointer p-4 hover:bg-gray-100 border-b" data-patient='${JSON.stringify(patient)}'>
@@ -199,13 +199,13 @@ function listPatients(patientsData) {
       displayPatientData(patient);
       
       // Highlight selected patient
-      document.querySelectorAll('.patient-item').forEach(p => p.classList.remove('selected'));
+      document.querySelectorAll('.patient-item').forEach((p) => p.classList.remove('selected'));
       item.classList.add('selected');
     });
   });
-}
+};
 
-function displayDiagnosisList(diagnosticList) {
+const displayDiagnosisList = (diagnosticList) => {
   const diagnosisList = document.getElementById('diagnosis-list');
 
   if (!diagnosticList || !Array.isArray(diagnosticList)) {
@@ -228,9 +228,9 @@ function displayDiagnosisList(diagnosticList) {
       </div>
     </li>
   `).join('');
-}
+};
 
-function getStatusColor(status) {
+const getStatusColor = (status) => {
   const statusColors = {
     Active: 'text-red-500',
     Inactive: 'text-gray-500',
@@ -239,9 +239,9 @@ function getStatusColor(status) {
     'Under Observation': 'text-yellow-500',
   };
   return statusColors[status] || 'text-gray-500';
-}
+};
 
-function displayLabResults(labResults) {
+const displayLabResults = (labResults) => {
   const labResultsList = document.getElementById('lab-results-list');
 
   if (!labResults || !Array.isArray(labResults)) {
@@ -266,9 +266,9 @@ function displayLabResults(labResults) {
       </div>
     </li>
   `).join('');
-}
+};
 
-function Vitals(diagnosisHistory) {
+const Vitals = (diagnosisHistory) => {
   const vitalRate = document.getElementById('vital-rate');
   const temperature = document.getElementById('temperature');
   const heartRate = document.getElementById('heart-rate');
@@ -318,4 +318,4 @@ function Vitals(diagnosisHistory) {
       </div>
     `;
   }
-}
+};
