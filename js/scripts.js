@@ -57,7 +57,7 @@ const displayPatientData = (patient) => {
       labels,
       datasets: [
         {
-          label: 'Systolic',
+          label: 'Systolicx',
           data: systolicData,
           borderColor: 'rgba(255, 99, 132, 1)',
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -121,8 +121,8 @@ const displayPatientData = (patient) => {
             weight: 'bold'
           },
           padding: {
-            top: 5,
-            bottom: 5
+            top: 2, // Reduced top padding to shift text up
+            bottom: 20
           },
           align: 'start'
         },
@@ -130,7 +130,7 @@ const displayPatientData = (patient) => {
       layout: {
         padding: {
           top: 2,
-          right: 100
+          right: 10// Reduced right padding to allow more space for the chart
       }
       },
       scales: {
@@ -139,11 +139,13 @@ const displayPatientData = (patient) => {
           grid: {
             color: 'rgba(0, 0, 0, 0.1)',
             drawBorder: false,
+            tickLength: 7
           },
           ticks: {
             font: {
               size: 12,
             },
+            count: 7
           },
         },
         x: {
@@ -155,6 +157,9 @@ const displayPatientData = (patient) => {
               size: 12,
             },
           },
+          afterFit: function(scaleInstance) {
+            scaleInstance.width = 500; // Increase the width of x-axis
+          }
         },
       },
       elements: {
