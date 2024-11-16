@@ -90,18 +90,18 @@ const displayPatientData = (patient) => {
           align: 'start',
           labels: {
             boxWidth: 2,
-            padding: 50,
+            padding: 20,
             usePointStyle: true,
             pointStyle: 'circle',
-            pointStyleWidth: 4,
-            boxHeight: 4,
+            pointStyleWidth: 5,
+            boxHeight: 5,
             boxWidth: 4,
             generateLabels: function(chart) {
               const datasets = chart.data.datasets;
               return datasets.map((dataset, i) => ({
-                text: dataset.label + ' ' 
-                + (i === 0 ? '\n' + systolicData[systolicData.length - 1] // Prints systolic value on a new line
-                           : diastolicData[diastolicData.length - 1]), // Prints diastolic value
+                text: dataset.label + '\n' + (i === 0 
+                        ? systolicData[systolicData.length - 1] 
+                        : diastolicData[diastolicData.length - 1]), // Display value below each label
                 fillStyle: dataset.borderColor,
                 strokeStyle: dataset.borderColor,
                 lineWidth: 2,
@@ -109,10 +109,10 @@ const displayPatientData = (patient) => {
                 index: i,
                 datasetIndex: i,
                 pointStyle: 'circle',
-                textBaseline: 'middle',
+                textAlign: 'left', // Align text to the left
                 padding: i === 0 ? { top: 2, bottom: 0 } : { top: 0, bottom: 0 }
               }));
-            }
+            }            
           }
         },
         title: {
@@ -342,8 +342,8 @@ const Vitals = (diagnosisHistory) => {
   } else {
     vitalRate.innerHTML = `
       <div class="p-4">
-        <p class="text-lg font-bold mb-0">${latestVital.respiratory_rate.value} bpm</p>
-        <p class="text-sm text-gray-600">${latestVital.respiratory_rate.levels}</p>
+        <p class="text-lg font-bold mb-0 text-left">${latestVital.respiratory_rate.value} bpm</p>
+        <p class="text-sm text-gray-600 text-left">${latestVital.respiratory_rate.levels}</p>
       </div>
     `;
   }
@@ -354,8 +354,8 @@ const Vitals = (diagnosisHistory) => {
   } else {
     temperature.innerHTML = `
       <div class="p-4">
-        <p class="text-lg font-bold">${latestVital.temperature.value}°F</p>
-        <p class="text-sm text-gray-600">${latestVital.temperature.levels}</p>
+        <p class="text-lg font-bold text-left">${latestVital.temperature.value}°F</p>
+        <p class="text-sm text-gray-600 text-left">${latestVital.temperature.levels}</p>
       </div>
     `;
   }
@@ -366,8 +366,8 @@ const Vitals = (diagnosisHistory) => {
   } else {
     heartRate.innerHTML = `
       <div class="p-4">
-        <p class="text-lg font-bold">${latestVital.heart_rate.value} bpm</p>
-        <p class="text-sm text-gray-600">${latestVital.heart_rate.levels}</p>
+        <p class="text-lg font-bold text-left">${latestVital.heart_rate.value} bpm</p>
+        <p class="text-sm text-gray-600 text-left">${latestVital.heart_rate.levels}</p>
       </div>
     `;
   }
