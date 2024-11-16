@@ -132,7 +132,7 @@ const displayPatientData = (patient) => {
       layout: {
         padding: {
           top: 2,
-          right: 10,
+          right: 0,
           left: 0 // Reduced left padding to shift y-axis closer to title
         }
       },
@@ -156,16 +156,19 @@ const displayPatientData = (patient) => {
         },
         x: {
           grid: {
-            display: false,
+            display: true, // Display horizontal lines
+            drawOnChartArea: false, // Draw lines on the chart area
+            drawBorder: false, // Do not draw border
+            drawTicks: false, // Do not draw ticks
+            color: 'rgba(0, 0, 0, 0.1)', // Set color of lines
+            tickLength: 7, // Set length of ticks
           },
           ticks: {
             font: {
               size: 12,
             },
           },
-          afterFit: function(scaleInstance) {
-            scaleInstance.width = 550; // Increased width of x-axis
-          }
+          // Removed the afterFit function as it's not necessary
         },
       },
       elements: {
@@ -229,9 +232,9 @@ const listPatients = (patients) => {
   }
 
   // Only display first 12 patients
-  const displayedPatients = patients.slice(0, 12);
+ // const displayedPatients = patients.slice(0, 12);
 
-  patientList.innerHTML = displayedPatients.map((patient) => `
+  patientList.innerHTML = patients.map((patient) => `
     <li class="patient-item cursor-pointer p-4 hover:bg-gray-100 border-b" data-patient='${JSON.stringify(patient)}'>
       <div class="flex items-center">
         <img src="${patient.profile_picture || 'images/default-avatar.png'}" alt="${patient.name}" class="w-10 h-10 rounded-full mr-4">
