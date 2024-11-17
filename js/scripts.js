@@ -242,7 +242,7 @@ const listPatients = (patients) => {
           <h3 class="font-semibold text-left">${patient.name}</h3>
           <p class="text-sm text-gray-600 text-left">${patient.gender}, ${patient.age}</p>
         </div>
-        <img src="images/more_horiz_FILL0_wght300_GRAD0_opsz24@2x.png" alt="settings" class="w-4 h-4 ml-auto">
+        <img src="images/more_horiz_FILL0_wght300_GRAD0_opsz24.png" alt="settings" class="w-2 h-2 ml-auto">
       </div>
     </li>
   `).join('');
