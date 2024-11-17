@@ -23,7 +23,7 @@ fetch('https://fedskillstest.coalitiontechnologies.workers.dev', requestOptions)
 const displayPatientData = (patient) => {
   // Use the stored patient data instead of fetching again
   const patientData = patientsData.find((p) => p.name === patient.name);
-  
+
   if (!patientData || !patientData.diagnosis_history) {
     console.error('No blood pressure data found for patient');
     return;
@@ -60,7 +60,7 @@ const displayPatientData = (patient) => {
           label: 'Systolic',
           data: systolicData,
           borderColor: 'rgba(255, 99, 132, 1)',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
           borderWidth: 2,
           tension: 0.4,
           fill: false,
@@ -96,12 +96,12 @@ const displayPatientData = (patient) => {
             pointStyleWidth: 5,
             boxHeight: 5,
             boxWidth: 4,
-            generateLabels: function(chart) {
-              const datasets = chart.data.datasets;
+            generateLabels(chart) {
+              const { datasets } = chart.data;
               return datasets.map((dataset, i) => ({
-                text: dataset.label + '\n' + (i === 0 
-                        ? systolicData[systolicData.length - 1] 
-                        : diastolicData[diastolicData.length - 1]), // Display value below each label
+                text: `${dataset.label}\n${i === 0
+                  ? systolicData[systolicData.length - 1]
+                  : diastolicData[diastolicData.length - 1]}`, // Display value below each label
                 fillStyle: dataset.borderColor,
                 strokeStyle: dataset.borderColor,
                 lineWidth: 2,
@@ -110,31 +110,31 @@ const displayPatientData = (patient) => {
                 datasetIndex: i,
                 pointStyle: 'circle',
                 textAlign: 'left', // Align text to the left
-                padding: i === 0 ? { top: 2, bottom: 0 } : { top: 0, bottom: 0 }
+                padding: i === 0 ? { top: 2, bottom: 0 } : { top: 0, bottom: 0 },
               }));
-            }            
-          }
+            },
+          },
         },
         title: {
           display: true,
           text: 'Blood Pressure',
           font: {
             size: 14,
-            weight: 'bold'
+            weight: 'bold',
           },
           padding: {
             top: 2,
-            bottom: 20
+            bottom: 20,
           },
-          align: 'start'
+          align: 'start',
         },
       },
       layout: {
         padding: {
           top: 2,
           right: 0,
-          left: 0 // Reduced left padding to shift y-axis closer to title
-        }
+          left: 0, // Reduced left padding to shift y-axis closer to title
+        },
       },
       scales: {
         y: {
@@ -143,16 +143,16 @@ const displayPatientData = (patient) => {
           grid: {
             color: 'rgba(0, 0, 0, 0.1)',
             drawBorder: false,
-            tickLength: 7
+            tickLength: 7,
           },
           ticks: {
             font: {
               size: 12,
             },
             count: 7,
-            padding: 4 // Reduced padding to move labels closer to axis
+            padding: 4, // Reduced padding to move labels closer to axis
           },
-          offset: false // Removes the gap between the axis and the data
+          offset: false, // Removes the gap between the axis and the data
         },
         x: {
           grid: {
@@ -185,7 +185,7 @@ const displayPatientData = (patient) => {
 
   // Display diagnosis list
   displayDiagnosisList(patient.diagnostic_list);
-  
+
   // Display lab results
   displayLabResults(patient.lab_results);
 
@@ -231,9 +231,6 @@ const listPatients = (patients) => {
     return;
   }
 
-  // Only display first 12 patients
- // const displayedPatients = patients.slice(0, 12);
-
   patientList.innerHTML = patients.map((patient) => `
     <li class="patient-item cursor-pointer p-4 hover:bg-gray-100" data-patient='${JSON.stringify(patient)}'>
       <div class="flex items-center">
@@ -254,7 +251,7 @@ const listPatients = (patients) => {
       // Add index to patient object
       patient.index = index + 1; // 1-based index
       displayPatientData(patient);
-      
+
       // Highlight selected patient
       document.querySelectorAll('.patient-item').forEach((p) => p.classList.remove('selected'));
       item.classList.add('selected');
@@ -339,7 +336,7 @@ const Vitals = (diagnosisHistory) => {
 
   // Get most recent vital reading
   const latestVital = diagnosisHistory[diagnosisHistory.length - 1];
-  
+
   // Display respiratory rate
   if (!latestVital.respiratory_rate) {
     vitalRate.innerHTML = 'No respiratory rate data available';
