@@ -220,7 +220,7 @@ const displayPatientData = (patient) => {
     <br>
     <br>
     
-    <button class="w-[220px] h-[41px] rounded-full bg-[blue] text-black">Show all information</button>
+    <button class="w-[220px] h-[41px] rounded-full text-center text-black bg-green-300 ml-14 p-2">Show all information</button>
   `;
 };
 
