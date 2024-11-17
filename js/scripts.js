@@ -235,13 +235,14 @@ const listPatients = (patients) => {
  // const displayedPatients = patients.slice(0, 12);
 
   patientList.innerHTML = patients.map((patient) => `
-    <li class="patient-item cursor-pointer p-4 hover:bg-gray-100 border-b" data-patient='${JSON.stringify(patient)}'>
+    <li class="patient-item cursor-pointer p-4 hover:bg-gray-100" data-patient='${JSON.stringify(patient)}'>
       <div class="flex items-center">
         <img src="${patient.profile_picture || 'images/default-avatar.png'}" alt="${patient.name}" class="w-10 h-10 rounded-full mr-4">
-        <div>
-          <h3 class="font-semibold">${patient.name}</h3>
-          <p class="text-sm text-gray-600"> ${patient.gender}, ${patient.age}</p>
+        <div class="flex flex-col">
+          <h3 class="font-semibold text-left">${patient.name}</h3>
+          <p class="text-sm text-gray-600 text-left">${patient.gender}, ${patient.age}</p>
         </div>
+        <img src="images/more_horiz_FILL0_wght300_GRAD0_opsz24@2x.png" alt="settings" class="w-4 h-4 ml-auto">
       </div>
     </li>
   `).join('');
