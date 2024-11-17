@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Data Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="flex justify-between items-center bg-white rounded-full shadow-md px-6 py-3 mx-10 my-6 h-12">
+        <div class="flex justify-center">
+            <img src="images/TestLogo.png" alt="TechCare Logo" class="h-8">
+            <nav class="flex items-center justify-center ml-48 space-x-4">
+                <a href="#" class="flex items-center space-x-2 text-gray-600">
+                    <img src="images/home_FILL0_wght300_GRAD0_opsz24.png" alt="Overview" class="w-4 h-4">
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="flex items-center space-x-1 text-black bg-green-300 rounded-full p-2 h-6">
+                    <img src="images/group_FILL0_wght300_GRAD0_opsz24.png" alt="Patients" class="w-4 h-4">
+                    <span>Patients</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 text-gray-600">
+                    <img src="images/calendar_today_FILL0_wght300_GRAD0_opsz24@2x.png" alt="Schedule" class="w-4 h-4">
+                    <span>Schedule</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 text-gray-600">
+                    <img src="images/chat_bubble_FILL0_wght300_GRAD0_opsz24.png" alt="Message" class="w-4 h-4">
+                    <span>Message</span>
+                </a>
+                <a href="#" class="flex items-center space-x-2 text-gray-600">
+                    <img src="images/credit_card_FILL0_wght300_GRAD0_opsz24.png" alt="Transactions" class="w-4 h-4">
+                    <span>Transactions</span>
+                </a>
+            </nav>
+        </div>
+        
+        <div class="flex items-center">
+            <div class="flex items-center space-x-2">
+                <img src="images/senior-woman-doctor-and-portrait-smile-for-health-2023-11-27-05-18-16-utc.png" 
+                     alt="Doctor" 
+                     class="h-10 w-10 rounded-full">
+                <div class="text-left">
+                    <div class="font-bold text-md"> Dr. Jose Simmons</div>
+                    <div class="text-gray-600 text-sm">General Practitioner</div>
+                </div>
+            </div>
+            <div class="ml-4">
+                <img src="images/settings_FILL0_wght300_GRAD0_opsz24.png" alt="settings" class="mr-3">
+            </div>
+            <div>
+                <img src="images/more_vert_FILL0_wght300_GRAD0_opsz24.png" alt="vertical" class="mr-3">
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto ">
+        <div class="grid grid-cols-12 gap-6">
+            <!-- First Column -->
+            <div class="col-span-3 bg-white rounded-lg shadow-md p-6 h-98 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Patients</h2>
+                    <img src="images/search_FILL0_wght300_GRAD0_opsz24.png" alt="Search" class="w-6 h-6 cursor-pointer hover:opacity-75">
+                </div>
+                <ul id="patient-list">
+                    <!-- Patient list will be populated by JavaScript -->
+                </ul>
+            </div>
+    
+            <!-- Second Column - Vital Signs Section -->
+            <div class="col-span-6 space-y-6">
+                <div class="bg-white rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold text-slate-800 mb-6 ml-6">Diagnosis History</h2>
+                    <div class="bg-gray-50 rounded-lg p-4 m-4">
+                        <div class="chart-container relative h-[150px] w-full">
+                            <canvas id="bloodPressureChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="flex justify-start gap-4 p-4 mb-4">
+                        <div class="bg-blue-50 p-2 rounded-lg hover:shadow-md transition-shadow w-1/3">
+                            <img src="images/respiratory rate@2x.png" alt="Respiratory Rate" class="w-16 h-16 mb-3 mr-3">
+                            <div class="text-sm font-medium text-gray-600 text-left">Respiratory Rate</div>
+                            <div class="text-xl font-bold mt-2 text-left" id="vital-rate"></div>
+                        </div>
+                        <div class="bg-red-200 p-2 rounded-lg hover:shadow-md transition-shadow w-1/3">
+                            <img src="images/temperature@2x.png" alt="temperature" class="w-16 h-16 mb-3 mr-3">
+                            <div class="text-sm font-medium text-gray-600 text-left m-1">Temperature</div>
+                            <div class="text-left" id="temperature"></div>
+                        </div>
+                        <div class="bg-red-100 p-2 rounded-lg hover:shadow-md transition-shadow w-1/3">
+                            <img src="images/HeartBPM@2x.png" alt="Heart Rate" class="w-16 h-16 mb-3 mr-3">
+                            <div class="text-sm font-medium text-gray-600 text-left">Heart Rate</div>
+                            <div class="text-left" id="heart-rate"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Diagnostic List improvements -->
+                <div class="bg-white rounded-lg shadow-md p-6 h-72 overflow-y-auto">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6">Diagnostic List</h3>
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="font-semibold text-gray-700">Problem/Diagnosis</div>
+                            <div class="font-semibold text-gray-700">Description</div>
+                            <div class="font-semibold text-gray-700">Status</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 overflow-auto">
+                        <ul id="diagnosis-list" class="h-full">
+                            <!-- Diagnosis list will be populated by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Third Column -->
+            <div class="col-span-3 space-y-6">
+                <!-- Top Card -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div id="patient-info" class="space-y-4">
+                        <div class="flex items-center mb-6">
+                            <img src="images/Layer 2@2x.png" alt="" class="w-16 h-16 rounded-full mx-auto object-cover" />
+                            <h3 class="text-xl font-bold text-gray-800"></h3>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-600">Date of Birth</p>
+                                <p class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Gender</p>
+                                <p class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Contact</p>
+                                <p class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Emergency Contact</p>
+                                <p class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Insurance</p>
+                                <p class="font-medium"></p>
+                            </div>        
+                        </div>
+                        <button class="w-[220px] h-[41px] rounded-full text-center text-black bg-green-300 ml-14 p-2">Show all information</button>
+                    </div>
+                </div>
+                
+                <!-- Bottom Card -->
+                <div class="bg-white rounded-lg shadow-md p-4 flex flex-col h-96 overflow-y-auto">
+                    <h3 class="text-lg font-bold mb-3">Lab Results</h3>
+                    <div class="flex-1 overflow-y-auto">
+                        <ul id="lab-results-list" class="divide-y divide-gray-200">
+                            <!-- Example lab result items -->
+                            <li class="py-3">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-medium">Complete Blood Count (CBC)</h4>
+                                        <p class="text-sm text-gray-500">Date: 2024-03-15</p>
+                                    </div>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Normal</span>
+                                </div>
+                            </li>
+                            <li class="py-3">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-medium">Lipid Panel</h4>
+                                        <p class="text-sm text-gray-500">Date: 2024-03-10</p>
+                                    </div>
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Review</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
