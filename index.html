@@ -96,7 +96,7 @@
                 </div>
                 
                 <!-- Diagnostic List improvements -->
-                <div class="bg-white rounded-lg shadow-md p-6 h-[calc(100%-3rem)] overflow-y-auto">
+                <div class="bg-white rounded-lg shadow-md p-6 h-96 overflow-y-auto">
                     <h3 class="text-xl font-bold text-gray-800 mb-6">Diagnostic List</h3>
                     <div class="bg-gray-50 rounded-lg p-4 mb-4">
                         <div class="grid grid-cols-3 gap-4">
@@ -105,8 +105,8 @@
                             <div class="font-semibold text-gray-700">Status</div>
                         </div>
                     </div>
-                    <div class="flex-1 overflow-hidden">
-                        <ul id="diagnosis-list" class="h-full overflow-y-auto">
+                    <div class="flex-1 overflow-auto">
+                        <ul id="diagnosis-list" class="h-full">
                             <!-- Diagnosis list will be populated by JavaScript -->
                         </ul>
                     </div>
@@ -149,10 +149,10 @@
                 </div>
                 
                 <!-- Bottom Card -->
-                <div class="bg-white rounded-lg shadow-md p-4 flex flex-col h-96">
+                <div class="bg-white rounded-lg shadow-md p-4 flex flex-col h-96 overflow-y-auto">
                     <h3 class="text-lg font-bold mb-3">Lab Results</h3>
-                    <div class="flex-1 overflow-hidden">
-                        <ul id="lab-results-list" class="divide-y divide-gray-200 h-full overflow-y-auto">
+                    <div class="flex-1 overflow-y-auto">
+                        <ul id="lab-results-list" class="divide-y divide-gray-200">
                             <!-- Example lab result items -->
                             <li class="py-3">
                                 <div class="flex justify-between items-center">
