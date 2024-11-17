@@ -342,7 +342,7 @@ const Vitals = (diagnosisHistory) => {
     vitalRate.innerHTML = 'No respiratory rate data available';
   } else {
     vitalRate.innerHTML = `
-      <div class="p-4">
+      <div class="p-2">
         <p class="text-lg font-bold mb-0 text-left">${latestVital.respiratory_rate.value} bpm</p>
         <p class="text-sm text-gray-600 text-left">${latestVital.respiratory_rate.levels}</p>
       </div>
@@ -354,7 +354,7 @@ const Vitals = (diagnosisHistory) => {
     temperature.innerHTML = 'No temperature data available';
   } else {
     temperature.innerHTML = `
-      <div class="p-4">
+      <div class="p-2">
         <p class="text-lg font-bold text-left">${latestVital.temperature.value}°F</p>
         <p class="text-sm text-gray-600 text-left">${latestVital.temperature.levels}</p>
       </div>
@@ -366,7 +366,7 @@ const Vitals = (diagnosisHistory) => {
     heartRate.innerHTML = 'No heart rate data available';
   } else {
     heartRate.innerHTML = `
-      <div class="p-4">
+      <div class="p-2">
         <p class="text-lg font-bold text-left">${latestVital.heart_rate.value} bpm</p>
         <p class="text-sm text-gray-600 text-left">${latestVital.heart_rate.levels}</p>
       </div>
